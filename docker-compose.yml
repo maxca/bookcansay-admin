@@ -3,22 +3,64 @@ version: '2.1'
 services:
   app:
     image: maxca789/apache-php72
-    container_name: admin-demo-01
+    container_name: bb-intranet
     restart: always
     ports:
-      - "8010:80"
+      - "8811:80"
     volumes:
       - .:/var/www/html
     mem_limit: 1024m
     networks:
       - default
-      - bb-intranet-network
     cap_add:
       - SYS_PTRACE
+    depends_on:
+      - mysql
+      - redis-server
+  mysql-local:
+    restart: always
+    image: mariadb:10.3
+    container_name: mysql-local
+    ports:
+      - "3808:3306"
+    mem_limit: 512m
+    networks:
+      - default
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=local
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=root
+      - PMA_ARBITRARY=1
+      - PMA_HOST=mysql
+      - PMA_PORT=3306
+      - PMA_USER=root
+      - PMA_PASSWORD=root
 
+  mysql-admin:
+    restart: always
+    image: phpmyadmin/phpmyadmin:edge-4.8
+    container_name: mariadb-phpmyadmin-bb
+    ports:
+      - "8803:80"
+    mem_limit: 512m
+    networks:
+      - default
+    depends_on:
+      - mysql-local
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: mysql-local
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root
+
+volumes:
+  mysql:
+    driver: local
+  redis:
+    driver: local
 networks:
-  bb-intranet-network:
-    external: true
-
-
-
+  default:
+    driver: bridge
+    name: book-can-see
