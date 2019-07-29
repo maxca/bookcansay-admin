@@ -3,7 +3,7 @@ version: '2.1'
 services:
   app:
     image: maxca789/apache-php72
-    container_name: bb-intranet
+    container_name: bookcansay
     restart: always
     ports:
       - "8811:80"
@@ -15,8 +15,7 @@ services:
     cap_add:
       - SYS_PTRACE
     depends_on:
-      - mysql
-      - redis-server
+      - mysql-local
   mysql-local:
     restart: always
     image: mariadb:10.3
