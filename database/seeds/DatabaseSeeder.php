@@ -21,6 +21,9 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $this->call(AuthTableSeeder::class);
+        $this->call(IconSeeder::class);
+        $this->call(InputTypeSeeder::class);
+        $this->call(RuleSeeder::class);
 
         Model::reguard();
     }

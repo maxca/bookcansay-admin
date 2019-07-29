@@ -53,7 +53,7 @@
                         </li>
                     </ul>
                 </li>
-
+                @include('module-generate::modules.component.sidebar')
                 <li class="divider"></li>
 
                 <li class="nav-item nav-dropdown {{
