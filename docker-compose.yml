@@ -1,0 +1,24 @@
+version: '2.1'
+
+services:
+  app:
+    image: maxca789/apache-php72
+    container_name: admin-demo-01
+    restart: always
+    ports:
+      - "8010:80"
+    volumes:
+      - .:/var/www/html
+    mem_limit: 1024m
+    networks:
+      - default
+      - bb-intranet-network
+    cap_add:
+      - SYS_PTRACE
+
+networks:
+  bb-intranet-network:
+    external: true
+
+
+
